@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+
+    <listener> 
+        <listener-class>eu.jangos.auth.security.env.CDIEnvironmentLoaderListener</listener-class> 
+    </listener> 
+
+    <servlet>
+        <description>This servlet is used in order to initialize the Swagger API.</description>
+        <servlet-name>SwaggerBootstrap</servlet-name>
+        <servlet-class>eu.jangos.servlet.Bootstrap</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    
+    <servlet>
+        <description>This server is used to initialize the security parameters.</description>
+        <servlet-name>SecurityInit</servlet-name>
+        <servlet-class>eu.jangos.servlet.Security</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    
+    <filter>
+        <filter-name>Shiro</filter-name>
+        <filter-class>
+            org.apache.shiro.web.servlet.ShiroFilter
+        </filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>Shiro</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher> 
+        <dispatcher>FORWARD</dispatcher> 
+        <dispatcher>INCLUDE</dispatcher> 
+        <dispatcher>ERROR</dispatcher> 
+    </filter-mapping>
+
+</web-app>
